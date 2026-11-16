@@ -1,0 +1,237 @@
+[
+ {
+  "id": "SAST-01",
+  "arquivo": "servico_alerta.py",
+  "linha": 26,
+  "funcao": "cadastrar_morador",
+  "sink": "log.info → log_aplicacao",
+  "tipo_sink": "log",
+  "categorias": [
+   "CONTATO",
+   "CREDENCIAL",
+   "IDENTIFICACAO",
+   "LOCALIZACAO",
+   "NASCIMENTO",
+   "SAUDE"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "parâmetro 'payload'"
+  ],
+  "trecho": "log.info(f'Novo cadastro recebido: {dados}')"
+ },
+ {
+  "id": "SAST-02",
+  "arquivo": "servico_alerta.py",
+  "linha": 28,
+  "funcao": "cadastrar_morador",
+  "sink": "log.debug → log_aplicacao",
+  "tipo_sink": "log",
+  "categorias": [
+   "CONTATO",
+   "CREDENCIAL",
+   "IDENTIFICACAO",
+   "LOCALIZACAO",
+   "NASCIMENTO",
+   "SAUDE"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "parâmetro 'payload'"
+  ],
+  "trecho": "log.debug('payload bruto do app (b64): ' + bruto)"
+ },
+ {
+  "id": "SAST-03",
+  "arquivo": "servico_alerta.py",
+  "linha": 37,
+  "funcao": "emitir_alerta",
+  "sink": "sms.enviar → sms_alerta_individual",
+  "tipo_sink": "titular",
+  "categorias": [
+   "CONTATO",
+   "IDENTIFICACAO",
+   "LOCALIZACAO"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "listar_moradores() L33.cpf",
+   "listar_moradores() L33.endereco",
+   "listar_moradores() L33.telefone"
+  ],
+  "trecho": "sms.enviar(m.telefone, msg, titular=m.id)"
+ },
+ {
+  "id": "SAST-04",
+  "arquivo": "servico_alerta.py",
+  "linha": 38,
+  "funcao": "emitir_alerta",
+  "sink": "log.debug → log_aplicacao",
+  "tipo_sink": "log",
+  "categorias": [
+   "CONTATO"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "listar_moradores() L33.telefone"
+  ],
+  "trecho": "log.debug('SMS enviado para %s' % m.telefone)"
+ },
+ {
+  "id": "SAST-05",
+  "arquivo": "servico_alerta.py",
+  "linha": 39,
+  "funcao": "emitir_alerta",
+  "sink": "log.info → log_aplicacao",
+  "tipo_sink": "log",
+  "categorias": [],
+  "status": "SANITIZADO",
+  "fontes": [],
+  "trecho": "log.info('Alerta entregue ao morador ' + mascarar(m.telefone))"
+ },
+ {
+  "id": "SAST-06",
+  "arquivo": "servico_alerta.py",
+  "linha": 49,
+  "funcao": "publicar_lista_prioridade",
+  "sink": "canal.publicar → canal_publico_bairro",
+  "tipo_sink": "publico",
+  "categorias": [
+   "CONTATO",
+   "LOCALIZACAO",
+   "SAUDE"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "listar_moradores() L46.condicao_saude",
+   "listar_moradores() L46.endereco",
+   "listar_moradores() L46.telefone"
+  ],
+  "trecho": "canal.publicar('Prioridade de resgate: ' + tjoin('; ', linhas))"
+ },
+ {
+  "id": "SAST-07",
+  "arquivo": "servico_alerta.py",
+  "linha": 57,
+  "funcao": "exportar_defesa_civil",
+  "sink": "defesa_civil.exportar → exportacao_defesa_civil",
+  "tipo_sink": "exportacao",
+  "categorias": [
+   "CONTATO",
+   "IDENTIFICACAO",
+   "LOCALIZACAO",
+   "SAUDE"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "listar_moradores() L56.condicao_saude",
+   "listar_moradores() L56.cpf",
+   "listar_moradores() L56.endereco",
+   "listar_moradores() L56.telefone"
+  ],
+  "trecho": "defesa_civil.exportar(linhas)"
+ },
+ {
+  "id": "SAST-08",
+  "arquivo": "servico_alerta.py",
+  "linha": 60,
+  "funcao": "exportar_defesa_civil",
+  "sink": "defesa_civil.exportar → exportacao_defesa_civil",
+  "tipo_sink": "exportacao",
+  "categorias": [
+   "LOCALIZACAO",
+   "SAUDE"
+  ],
+  "status": "PERMITIDO",
+  "fontes": [
+   "listar_moradores() L59.condicao_saude",
+   "listar_moradores() L59.endereco"
+  ],
+  "trecho": "defesa_civil.exportar(ids)"
+ },
+ {
+  "id": "SAST-09",
+  "arquivo": "servico_alerta.py",
+  "linha": 63,
+  "funcao": "registrar_ocorrencia",
+  "sink": "llm.classificar_ocorrencia → llm_externo",
+  "tipo_sink": "terceiro",
+  "categorias": [
+   "TEXTO_LIVRE"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "parâmetro 'texto'"
+  ],
+  "trecho": "llm.classificar_ocorrencia(f'Classifique a ocorrência: {texto}')"
+ },
+ {
+  "id": "SAST-10",
+  "arquivo": "servico_alerta.py",
+  "linha": 64,
+  "funcao": "registrar_ocorrencia",
+  "sink": "mapa.publicar → mapa_publico_ocorrencias",
+  "tipo_sink": "publico",
+  "categorias": [
+   "TEXTO_LIVRE"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "parâmetro 'texto'"
+  ],
+  "trecho": "mapa.publicar({'categoria': categoria, 'relato': texto, 'local': f'{lat:.5f}, {lon:.5f}'})"
+ },
+ {
+  "id": "SAST-11",
+  "arquivo": "servico_alerta.py",
+  "linha": 71,
+  "funcao": "-",
+  "sink": "literal no código-fonte",
+  "tipo_sink": "codigo",
+  "categorias": [
+   "CREDENCIAL"
+  ],
+  "status": "SEGREDO NO CÓDIGO",
+  "fontes": [
+   "CRED_URL_SENHA"
+  ],
+  "trecho": "mqtt://***:***@mqtt.alertachuva.local:1883"
+ },
+ {
+  "id": "SAST-12",
+  "arquivo": "servico_alerta.py",
+  "linha": 71,
+  "funcao": "-",
+  "sink": "literal no código-fonte",
+  "tipo_sink": "codigo",
+  "categorias": [
+   "CREDENCIAL"
+  ],
+  "status": "SEGREDO NO CÓDIGO",
+  "fontes": [
+   "CRED_BEARER"
+  ],
+  "trecho": "[SEGREDO REMOVIDO]"
+ },
+ {
+  "id": "SAST-13",
+  "arquivo": "servico_alerta.py",
+  "linha": 81,
+  "funcao": "consultar_morador",
+  "sink": "api.responder → api_http_resposta",
+  "tipo_sink": "http",
+  "categorias": [
+   "CONTATO",
+   "CREDENCIAL",
+   "IDENTIFICACAO",
+   "LOCALIZACAO",
+   "NASCIMENTO",
+   "SAUDE"
+  ],
+  "status": "VIOLAÇÃO",
+  "fontes": [
+   "obter_morador() L78"
+  ],
+  "trecho": "api.responder(corpo, titular=solicitante)"
+ }
+]

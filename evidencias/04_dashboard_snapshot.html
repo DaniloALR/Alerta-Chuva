@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AlertaChuva · Guardião · Risco Cidadão</title>
+<style>
+.viz-root{color-scheme:light;--bg:#f3f2ee;--surface-1:#fcfcfb;--line:#e4e2dc;--grid:#ecebe6;--text-primary:#0b0b0b;--text-secondary:#52514e;--muted:#7a7974;
+--series-1:#2a78d6;--series-2:#eb6834;--good:#0ca30c;--warning:#fab219;--serious:#ec835a;--critical:#d03b3b;--neutral:#8a8983;--brand:#104281}
+@media (prefers-color-scheme:dark){:root .viz-root{color-scheme:dark;--bg:#121211;--surface-1:#1a1a19;--line:#2c2c2a;--grid:#262624;--text-primary:#f0efec;--text-secondary:#c3c2b7;--muted:#97968f;--series-1:#3987e5;--series-2:#d95926;--brand:#86b6ef}}
+*{box-sizing:border-box}body{margin:0}
+.viz-root{background:var(--bg);color:var(--text-primary);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;padding:20px 24px 32px}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+header h1{font-size:20px;margin:0;letter-spacing:-.01em}header h1 b{color:var(--brand)}
+header .sub{color:var(--text-secondary);font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-1);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%}
+.spacer{flex:1}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+.card{background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.card h2{font-size:13px;margin:0 0 2px;font-weight:650}.card .hint{color:var(--muted);font-size:12px;margin:0 0 10px}
+.c4{grid-column:span 4}.c8{grid-column:span 8}.c6{grid-column:span 6}.c12{grid-column:span 12}.c5{grid-column:span 5}.c7{grid-column:span 7}
+@media(max-width:1100px){.c4,.c8,.c6,.c5,.c7{grid-column:span 12}}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero .num{font-size:64px;font-weight:750;letter-spacing:-.03em;line-height:1;margin-top:-72px;font-variant-numeric:tabular-nums}
+.hero .lvl{margin-top:8px}
+.hero .cmp{display:flex;gap:10px;margin-top:14px;width:100%}
+.hero .cmp div{flex:1;border:1px solid var(--line);border-radius:10px;padding:8px}
+.hero .cmp small{display:block;color:var(--text-secondary);font-size:11px}
+.hero .cmp strong{font-size:20px;font-variant-numeric:tabular-nums}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kpi small{color:var(--text-secondary);font-size:12px;display:flex;align-items:center;gap:6px}
+.kpi strong{font-size:26px;font-variant-numeric:tabular-nums;display:block;margin-top:2px}
+svg text{fill:var(--text-secondary);font-size:11px}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--text-secondary);margin-bottom:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}.sw{width:10px;height:10px;border-radius:3px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--grid);vertical-align:top}
+td code{font-size:11.5px;color:var(--text-secondary)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-weight:650;font-size:11.5px;white-space:nowrap}
+.alerts{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.alert{border:1px solid var(--line);border-left:4px solid var(--neutral);border-radius:10px;padding:12px 14px}
+.alert h3{font-size:13.5px;margin:0 0 4px}.alert p{margin:0 0 8px;font-size:13px}
+.alert ul{margin:0 0 8px;padding-left:18px;font-size:12.5px;color:var(--text-secondary)}
+.alert .meta{font-size:11px;color:var(--muted)}
+.alert details{font-size:12px;color:var(--text-secondary)}.alert summary{cursor:pointer;color:var(--text-primary)}
+#tip{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--line);box-shadow:0 4px 18px rgba(0,0,0,.12);border-radius:8px;padding:7px 10px;font-size:12px;display:none;z-index:9}
+.foot{color:var(--muted);font-size:11.5px;margin-top:14px}
+.layers div{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--grid);font-size:13px}
+.layers b{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="viz-root">
+<header>
+  <div><h1><b>AlertaChuva</b> · Guardião de Privacidade</h1>
+  <div class="sub">Dashboard executivo · Jardim Pantanal, São Paulo · dados sintéticos de moradores</div></div>
+  <div class="spacer"></div>
+  <span class="pill" id="modo"><span class="dot"></span><span>-</span></span>
+  <span class="pill" id="atualizado">-</span>
+</header>
+
+<div class="grid">
+  <section class="card c4 hero" aria-labelledby="t-risco">
+    <h2 id="t-risco">Risco Cidadão (agora)</h2>
+    <p class="hint">Do dano possível à privacidade dos moradores, quanto chegou de fato a eles · últimos <span id="janela">20</span> eventos</p>
+    <svg id="gauge" viewBox="0 0 240 146" width="260" role="img" aria-label="Medidor do Risco Cidadão"></svg>
+    <div class="num" id="indice">-</div>
+    <div class="lvl"><span class="chip" id="nivel">-</span></div>
+    <div class="cmp">
+      <div><small>Antes (sem Guardião)</small><strong id="antes">-</strong></div>
+      <div><small>Depois (Guardião ativo)</small><strong id="depois">-</strong></div>
+    </div>
+  </section>
+
+  <section class="card c8" aria-labelledby="t-kpi">
+    <h2 id="t-kpi">Resumo da auditoria · <span id="fase-atual">-</span></h2><p class="hint">Saídas de dados interceptadas pelo Taint Analysis na fase atual</p>
+    <div class="kpis" id="kpis"></div>
+    <div style="margin-top:14px"><h2>Evolução do Risco Cidadão</h2><p class="hint">Índice móvel por evento auditado · faixa sombreada = Guardião ativo</p>
+    <svg id="linha" viewBox="0 0 760 190" width="100%" role="img" aria-label="Série do índice de risco"></svg></div>
+  </section>
+
+  <section class="card c7" aria-labelledby="t-cat">
+    <h2 id="t-cat">Risco real por tipo de dado: antes × depois</h2><p class="hint">Pontos de risco que chegaram ao cidadão (peso LGPD × exposição do canal × desfecho)</p>
+    <div class="legend"><span><i class="sw" style="background:var(--series-2)"></i>Antes (sem Guardião)</span><span><i class="sw" style="background:var(--series-1)"></i>Depois (Guardião ativo)</span></div>
+    <svg id="barras" viewBox="0 0 640 230" width="100%" role="img" aria-label="Risco por categoria de dado"></svg>
+  </section>
+
+  <section class="card c5" aria-labelledby="t-cam">
+    <h2 id="t-cam">Como os vazamentos foram detectados</h2><p class="hint">Camadas do Taint Analysis (achados em saídas proibidas)</p>
+    <div class="layers" id="camadas"></div>
+    <h2 style="margin-top:16px">Análise estática (SAST) do código</h2><p class="hint">Fluxos fonte → saída encontrados sem executar o código</p>
+    <div class="layers" id="sast"></div>
+  </section>
+
+  <section class="card c12" aria-labelledby="t-ia">
+    <h2 id="t-ia">Alertas ao cidadão gerados pela IA</h2><p class="hint">Falhas técnicas traduzidas em risco real e ação simples, mais a correção para a equipe</p>
+    <div class="alerts" id="alertas"></div>
+  </section>
+
+  <section class="card c12" aria-labelledby="t-ev">
+    <h2 id="t-ev">Últimos eventos auditados</h2><p class="hint">Visão em tabela · nenhum valor pessoal é armazenado, apenas categoria, origem e local do código</p>
+    <div style="overflow:auto"><table><thead><tr><th>Hora</th><th>Fase</th><th>Saída</th><th>Dados detectados</th><th>Camada</th><th>Decisão</th><th>Local no código</th></tr></thead><tbody id="eventos"></tbody></table></div>
+  </section>
+</div>
+<div class="foot">Risco Cidadão = 100 × Σ(peso da categoria × exposição × desfecho) ÷ Σ(peso × exposição). Desfecho: vazou 1,0 · mascarado 0,05 · bloqueado 0. Faixas: &lt;15 baixo · &lt;40 moderado · &lt;70 alto · ≥70 crítico.</div>
+<div id="tip"></div>
+</div>
+<script>window.__ESTADO__={"gerado_em": 1794856092.7428923, "modo": "proteger", "risco": {"indice_atual": 3.1, "nivel": "BAIXO", "cor": "#0ca30c", "indice_acumulado": 51.7, "eventos": 92, "decisoes": {"VAZOU": 44, "PERMITIDO": 4, "MASCARADO": 42, "BLOQUEADO": 2}, "camadas": {"2-valor contaminado": 24, "3-conteúdo (motor PII)": 70, "1-rótulo propagado": 114}, "moradores_expostos": 17, "moradores_protegidos": 0, "por_categoria": {"IDENTIFICACAO": {"potencial": 274.0, "real": 143.5, "ocorrencias": 54}, "LOCALIZACAO": {"potencial": 264.6, "real": 136.3, "ocorrencias": 44}, "SAUDE": {"potencial": 236.0, "real": 120.4, "ocorrencias": 26}, "CONTATO": {"potencial": 223.0, "real": 115.2, "ocorrencias": 64}, "CREDENCIAL": {"potencial": 88.2, "real": 46.3, "ocorrencias": 16}, "NASCIMENTO": {"potencial": 8.0, "real": 4.2, "ocorrencias": 4}}, "por_sink": {"log_aplicacao": {"VAZOU": 19, "MASCARADO": 19}, "sms_alerta_individual": {"VAZOU": 14, "MASCARADO": 14}, "llm_externo": {"VAZOU": 3, "MASCARADO": 3}, "mapa_publico_ocorrencias": {"VAZOU": 5, "MASCARADO": 5}, "canal_publico_bairro": {"VAZOU": 1, "BLOQUEADO": 1}, "api_http_resposta": {"VAZOU": 1, "PERMITIDO": 2, "BLOQUEADO": 1}, "exportacao_defesa_civil": {"VAZOU": 1, "PERMITIDO": 2, "MASCARADO": 1}}, "serie": [{"i": 1, "ts": 1794856051.564069, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 2, "ts": 1794856052.9968061, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 3, "ts": 1794856053.0107746, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 4, "ts": 1794856054.8163, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 5, "ts": 1794856056.0971327, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 6, "ts": 1794856056.0988731, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 7, "ts": 1794856056.1022127, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 8, "ts": 1794856056.104067, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 9, "ts": 1794856056.1076994, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 10, "ts": 1794856056.110574, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 11, "ts": 1794856056.1139224, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 12, "ts": 1794856056.11551, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 13, "ts": 1794856056.1190164, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 14, "ts": 1794856056.1207824, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 15, "ts": 1794856056.1240263, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 16, "ts": 1794856056.1256263, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 17, "ts": 1794856056.1288252, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 18, "ts": 1794856056.1304247, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 19, "ts": 1794856056.133608, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 20, "ts": 1794856056.1354976, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 21, "ts": 1794856056.139048, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 22, "ts": 1794856056.140625, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 23, "ts": 1794856056.1439006, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 24, "ts": 1794856056.145498, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 25, "ts": 1794856056.1486757, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 26, "ts": 1794856056.1502798, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 27, "ts": 1794856056.1537116, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 28, "ts": 1794856056.1552951, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 29, "ts": 1794856056.1584494, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 30, "ts": 1794856056.1600533, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 31, "ts": 1794856056.1722655, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 32, "ts": 1794856058.6296966, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 33, "ts": 1794856060.3298962, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 34, "ts": 1794856061.2253523, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 35, "ts": 1794856062.688836, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 36, "ts": 1794856063.6978464, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 37, "ts": 1794856065.3848622, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 38, "ts": 1794856065.4037466, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 39, "ts": 1794856066.711577, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 40, "ts": 1794856066.7220945, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 41, "ts": 1794856068.3693497, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 42, "ts": 1794856069.8510745, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 43, "ts": 1794856071.5850694, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 44, "ts": 1794856071.5993202, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 45, "ts": 1794856071.6093514, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 46, "ts": 1794856072.9025433, "fase": "1-ANTES (sem Guardião)", "indice": 100.0}, {"i": 47, "ts": 1794856074.1214333, "fase": "2-DEPOIS (Guardião ativo)", "indice": 95.0}, {"i": 48, "ts": 1794856075.3022273, "fase": "2-DEPOIS (Guardião ativo)", "indice": 91.1}, {"i": 49, "ts": 1794856075.3161554, "fase": "2-DEPOIS (Guardião ativo)", "indice": 90.5}, {"i": 50, "ts": 1794856076.1892061, "fase": "2-DEPOIS (Guardião ativo)", "indice": 90.0}, {"i": 51, "ts": 1794856077.0217571, "fase": "2-DEPOIS (Guardião ativo)", "indice": 88.8}, {"i": 52, "ts": 1794856077.02369, "fase": "2-DEPOIS (Guardião ativo)", "indice": 87.2}, {"i": 53, "ts": 1794856077.0270174, "fase": "2-DEPOIS (Guardião ativo)", "indice": 86.3}, {"i": 54, "ts": 1794856077.0289629, "fase": "2-DEPOIS (Guardião ativo)", "indice": 78.3}, {"i": 55, "ts": 1794856077.0327556, "fase": "2-DEPOIS (Guardião ativo)", "indice": 76.9}, {"i": 56, "ts": 1794856077.035108, "fase": "2-DEPOIS (Guardião ativo)", "indice": 73.6}, {"i": 57, "ts": 1794856077.0383978, "fase": "2-DEPOIS (Guardião ativo)", "indice": 72.7}, {"i": 58, "ts": 1794856077.0402906, "fase": "2-DEPOIS (Guardião ativo)", "indice": 65.2}, {"i": 59, "ts": 1794856077.043735, "fase": "2-DEPOIS (Guardião ativo)", "indice": 64.3}, {"i": 60, "ts": 1794856077.0455606, "fase": "2-DEPOIS (Guardião ativo)", "indice": 59.6}, {"i": 61, "ts": 1794856077.049134, "fase": "2-DEPOIS (Guardião ativo)", "indice": 51.0}, {"i": 62, "ts": 1794856077.0510404, "fase": "2-DEPOIS (Guardião ativo)", "indice": 44.1}, {"i": 63, "ts": 1794856077.054262, "fase": "2-DEPOIS (Guardião ativo)", "indice": 35.5}, {"i": 64, "ts": 1794856077.0560772, "fase": "2-DEPOIS (Guardião ativo)", "indice": 31.1}, {"i": 65, "ts": 1794856077.059199, "fase": "2-DEPOIS (Guardião ativo)", "indice": 22.7}, {"i": 66, "ts": 1794856077.061065, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 67, "ts": 1794856077.0644255, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 68, "ts": 1794856077.0663078, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 69, "ts": 1794856077.069561, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 70, "ts": 1794856077.071412, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 71, "ts": 1794856077.074632, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 72, "ts": 1794856077.076478, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 73, "ts": 1794856077.0798607, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 74, "ts": 1794856077.08175, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 75, "ts": 1794856077.085099, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 76, "ts": 1794856077.0870104, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 77, "ts": 1794856077.0997436, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 78, "ts": 1794856078.603629, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 79, "ts": 1794856080.073131, "fase": "2-DEPOIS (Guardião ativo)", "indice": 5.0}, {"i": 80, "ts": 1794856081.0485408, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.3}, {"i": 81, "ts": 1794856082.268487, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.3}, {"i": 82, "ts": 1794856083.5841641, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.1}, {"i": 83, "ts": 1794856085.0983808, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.1}, {"i": 84, "ts": 1794856085.1177762, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.5}, {"i": 85, "ts": 1794856086.100686, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.4}, {"i": 86, "ts": 1794856086.110879, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.6}, {"i": 87, "ts": 1794856087.324617, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.7}, {"i": 88, "ts": 1794856088.6069636, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.8}, {"i": 89, "ts": 1794856090.2165458, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.9}, {"i": 90, "ts": 1794856090.231214, "fase": "2-DEPOIS (Guardião ativo)", "indice": 2.9}, {"i": 91, "ts": 1794856090.241309, "fase": "2-DEPOIS (Guardião ativo)", "indice": 3.0}, {"i": 92, "ts": 1794856091.1920152, "fase": "2-DEPOIS (Guardião ativo)", "indice": 3.1}], "janela": 20}, "fase_atual": "2-DEPOIS (Guardião ativo)", "risco_fase": {"eventos": 46, "decisoes": {"MASCARADO": 42, "BLOQUEADO": 2, "PERMITIDO": 2}, "moradores_expostos": 0, "moradores_protegidos": 17}, "fases": {"1-ANTES (sem Guardião)": {"indice_acumulado": 100.0, "eventos": 46, "decisoes": {"VAZOU": 44, "PERMITIDO": 2}, "moradores_expostos": 17, "moradores_protegidos": 0, "por_categoria": {"IDENTIFICACAO": {"potencial": 137.0, "real": 137.0, "ocorrencias": 27}, "LOCALIZACAO": {"potencial": 132.3, "real": 132.3, "ocorrencias": 22}, "SAUDE": {"potencial": 118.0, "real": 118.0, "ocorrencias": 13}, "CONTATO": {"potencial": 111.5, "real": 111.5, "ocorrencias": 32}, "CREDENCIAL": {"potencial": 44.1, "real": 44.1, "ocorrencias": 8}, "NASCIMENTO": {"potencial": 4.0, "real": 4.0, "ocorrencias": 2}}, "camadas": {"2-valor contaminado": 12, "3-conteúdo (motor PII)": 35, "1-rótulo propagado": 57}, "nivel": "CRÍTICO"}, "2-DEPOIS (Guardião ativo)": {"indice_acumulado": 3.5, "eventos": 46, "decisoes": {"MASCARADO": 42, "BLOQUEADO": 2, "PERMITIDO": 2}, "moradores_expostos": 0, "moradores_protegidos": 17, "por_categoria": {"IDENTIFICACAO": {"potencial": 137.0, "real": 6.5, "ocorrencias": 27}, "LOCALIZACAO": {"potencial": 132.3, "real": 4.0, "ocorrencias": 22}, "SAUDE": {"potencial": 118.0, "real": 2.4, "ocorrencias": 13}, "CONTATO": {"potencial": 111.5, "real": 3.7, "ocorrencias": 32}, "CREDENCIAL": {"potencial": 44.1, "real": 2.2, "ocorrencias": 8}, "NASCIMENTO": {"potencial": 4.0, "real": 0.2, "ocorrencias": 2}}, "camadas": {"2-valor contaminado": 12, "3-conteúdo (motor PII)": 35, "1-rótulo propagado": 57}, "nivel": "BAIXO"}}, "ultimos": [{"ts": 1794856091.1920152, "fase": "2-DEPOIS (Guardião ativo)", "sink": "mapa_publico_ocorrencias", "decisao": "MASCARADO", "local": "servico_alerta.py:64 em registrar_ocorrencia()", "categorias": ["CONTATO", "CREDENCIAL", "LOCALIZACAO"], "camadas": ["3"]}, {"ts": 1794856090.241309, "fase": "2-DEPOIS (Guardião ativo)", "sink": "llm_externo", "decisao": "MASCARADO", "local": "servico_alerta.py:63 em registrar_ocorrencia()", "categorias": ["CONTATO", "CREDENCIAL"], "camadas": ["3"]}, {"ts": 1794856090.231214, "fase": "2-DEPOIS (Guardião ativo)", "sink": "mapa_publico_ocorrencias", "decisao": "MASCARADO", "local": "servico_alerta.py:64 em registrar_ocorrencia()", "categorias": ["LOCALIZACAO"], "camadas": ["3"]}, {"ts": 1794856090.2165458, "fase": "2-DEPOIS (Guardião ativo)", "sink": "log_aplicacao", "decisao": "MASCARADO", "local": "servico_alerta.py:28 em cadastrar_morador()", "categorias": ["CONTATO", "CREDENCIAL", "IDENTIFICACAO", "LOCALIZACAO", "NASCIMENTO"], "camadas": ["3"]}, {"ts": 1794856088.6069636, "fase": "2-DEPOIS (Guardião ativo)", "sink": "log_aplicacao", "decisao": "MASCARADO", "local": "servico_alerta.py:26 em cadastrar_morador()", "categorias": ["CONTATO", "CREDENCIAL", "IDENTIFICACAO", "LOCALIZACAO", "NASCIMENTO"], "camadas": ["2"]}, {"ts": 1794856087.324617, "fase": "2-DEPOIS (Guardião ativo)", "sink": "mapa_publico_ocorrencias", "decisao": "MASCARADO", "local": "servico_alerta.py:64 em registrar_ocorrencia()", "categorias": ["CONTATO", "LOCALIZACAO", "SAUDE"], "camadas": ["3"]}, {"ts": 1794856086.110879, "fase": "2-DEPOIS (Guardião ativo)", "sink": "llm_externo", "decisao": "MASCARADO", "local": "servico_alerta.py:63 em registrar_ocorrencia()", "categorias": ["CONTATO", "LOCALIZACAO", "SAUDE"], "camadas": ["3"]}, {"ts": 1794856086.100686, "fase": "2-DEPOIS (Guardião ativo)", "sink": "exportacao_defesa_civil", "decisao": "PERMITIDO", "local": "servico_alerta.py:60 em exportar_defesa_civil()", "categorias": ["LOCALIZACAO", "SAUDE"], "camadas": ["1", "2"]}, {"ts": 1794856085.1177762, "fase": "2-DEPOIS (Guardião ativo)", "sink": "exportacao_defesa_civil", "decisao": "MASCARADO", "local": "servico_alerta.py:57 em exportar_defesa_civil()", "categorias": ["IDENTIFICACAO"], "camadas": ["1"]}, {"ts": 1794856085.0983808, "fase": "2-DEPOIS (Guardião ativo)", "sink": "api_http_resposta", "decisao": "PERMITIDO", "local": "servico_alerta.py:81 em consultar_morador()", "categorias": ["CONTATO", "IDENTIFICACAO", "LOCALIZACAO"], "camadas": ["1"]}, {"ts": 1794856083.5841641, "fase": "2-DEPOIS (Guardião ativo)", "sink": "api_http_resposta", "decisao": "BLOQUEADO", "local": "servico_alerta.py:81 em consultar_morador()", "categorias": ["CONTATO", "IDENTIFICACAO", "LOCALIZACAO"], "camadas": ["1"]}, {"ts": 1794856082.268487, "fase": "2-DEPOIS (Guardião ativo)", "sink": "mapa_publico_ocorrencias", "decisao": "MASCARADO", "local": "servico_alerta.py:64 em registrar_ocorrencia()", "categorias": ["LOCALIZACAO"], "camadas": ["3"]}, {"ts": 1794856081.0485408, "fase": "2-DEPOIS (Guardião ativo)", "sink": "canal_publico_bairro", "decisao": "BLOQUEADO", "local": "servico_alerta.py:49 em publicar_lista_prioridade()", "categorias": ["CONTATO", "LOCALIZACAO", "SAUDE"], "camadas": ["1", "2"]}, {"ts": 1794856080.073131, "fase": "2-DEPOIS (Guardião ativo)", "sink": "log_aplicacao", "decisao": "MASCARADO", "local": "servico_alerta.py:75 em ingerir_leitura_sensor()", "categorias": ["CREDENCIAL"], "camadas": ["3"]}], "alertas": [{"titulo": "Seu endereço e senha foram protegidos no mapa de ocorrências", "mensagem_cidadao": "Tivemos cuidado para esconder seu endereço e senha no mapa de ocorrências. O seu alerta de chuva chegou normalmente e tudo está bem.", "nivel_risco": "baixo", "o_que_fazer": ["Troque sua senha do app por precaução e não repita a mesma senha em outros serviços.", "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).", "Verifique se o número está correto antes de clicar em links de alertas."], "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.", "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.", "fonte_ia": "llm:ollama/llama3.2", "evento": {"saida": "mapa_publico_ocorrencias", "tipo_saida": "publico", "decisao": "MASCARADO", "categorias_expostas": ["CONTATO", "CREDENCIAL", "LOCALIZACAO"], "camadas_deteccao": ["3-conteúdo (motor PII)"], "local_codigo": "servico_alerta.py:64 em registrar_ocorrencia()", "qtd_moradores_afetados": 0}, "ts": 1794856091.1920152, "fase": "2-DEPOIS (Guardião ativo)"}, {"titulo": "Sua senha protegida na IA externa", "mensagem_cidadao": "Nada foi exposto, a senha e dados do seu perfil foram protegidos. O AlertaChuva sempre prioriza sua segurança.", "nivel_risco": "baixo", "o_que_fazer": ["Troque sua senha do app por precaução", "Verifique se o número de alerta é do mesmo que o usado anteriormente."], "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.", "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.", "fonte_ia": "llm:ollama/llama3.2", "evento": {"saida": "llm_externo", "tipo_saida": "terceiro", "decisao": "MASCARADO", "categorias_expostas": ["CONTATO", "CREDENCIAL"], "camadas_deteccao": ["3-conteúdo (motor PII)"], "local_codigo": "servico_alerta.py:63 em registrar_ocorrencia()", "qtd_moradores_afetados": 0}, "ts": 1794856090.241309, "fase": "2-DEPOIS (Guardião ativo)"}, {"titulo": "Seu CPF e senha foram protegidos", "mensagem_cidadao": "Tiramos seu CPF e senha da mensagem antes do envio e o aviso de chuva chegou normalmente para você. Por precaução, troque sua senha do app imediatamente e não repita a mesma senha em outros serviços.", "nivel_risco": "baixo", "o_que_fazer": ["Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.", "Troque sua senha do app por precaução e não repita a mesma senha em outros serviços.", "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."], "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.", "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().", "fonte_ia": "llm:ollama/llama3.2", "evento": {"saida": "log_aplicacao", "tipo_saida": "log", "decisao": "MASCARADO", "categorias_expostas": ["CONTATO", "CREDENCIAL", "IDENTIFICACAO", "LOCALIZACAO", "NASCIMENTO"], "camadas_deteccao": ["2-valor contaminado"], "local_codigo": "servico_alerta.py:26 em cadastrar_morador()", "qtd_moradores_afetados": 0}, "ts": 1794856088.6069636, "fase": "2-DEPOIS (Guardião ativo)"}, {"titulo": "Informações pessoais não foram expostas", "mensagem_cidadao": "Sua saúde e endereço ficaram seguros. O AlertaChuva te ajudou com o alerta de chuva normalmente.", "nivel_risco": "baixo", "o_que_fazer": ["Ninguém precisa saber sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.", "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).", "Ignore links de outros números."], "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.", "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.", "fonte_ia": "llm:ollama/llama3.2", "evento": {"saida": "mapa_publico_ocorrencias", "tipo_saida": "publico", "decisao": "MASCARADO", "categorias_expostas": ["CONTATO", "LOCALIZACAO", "SAUDE"], "camadas_deteccao": ["3-conteúdo (motor PII)"], "local_codigo": "servico_alerta.py:64 em registrar_ocorrencia()", "qtd_moradores_afetados": 0}, "ts": 1794856087.324617, "fase": "2-DEPOIS (Guardião ativo)"}, {"titulo": "Informações de saúde e endereço protegidos", "mensagem_cidadao": "Nada foi exposto e seu alerta de chuva chegou normalmente. Lembre-se: sua saúde é confidencial e só vai para a Defesa Civil.", "nivel_risco": "baixo", "o_que_fazer": ["Ligue 199 (Defesa Civil) se alguém aparecer dizendo que veio pelo AlertaChuva", "Ignore links de outros números", "Ninguém precisa saber sua condição de saúde para te ajudar."], "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.", "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.", "fonte_ia": "llm:ollama/llama3.2", "evento": {"saida": "llm_externo", "tipo_saida": "terceiro", "decisao": "MASCARADO", "categorias_expostas": ["CONTATO", "LOCALIZACAO", "SAUDE"], "camadas_deteccao": ["3-conteúdo (motor PII)"], "local_codigo": "servico_alerta.py:63 em registrar_ocorrencia()", "qtd_moradores_afetados": 0}, "ts": 1794856086.110879, "fase": "2-DEPOIS (Guardião ativo)"}, {"titulo": "Seu CPF foi protegido no arquivo de alerta", "mensagem_cidadao": "O AlertaChuva protegeu seu CPF no envio do arquivo para a Defesa Civil. Nada foi exposto e seu alerta de chuva chegou normalmente.", "nivel_risco": "baixo", "o_que_fazer": ["Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede."], "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.", "correcao_tecnica": "Trocar CPF por pseudonimizar(); a Defesa Civil precisa de endereço e condição, não de documento.", "fonte_ia": "llm:ollama/llama3.2", "evento": {"saida": "exportacao_defesa_civil", "tipo_saida": "exportacao", "decisao": "MASCARADO", "categorias_expostas": ["IDENTIFICACAO"], "camadas_deteccao": ["1-rótulo propagado"], "local_codigo": "servico_alerta.py:57 em exportar_defesa_civil()", "qtd_moradores_afetados": 6}, "ts": 1794856085.1177762, "fase": "2-DEPOIS (Guardião ativo)"}], "sast": {"VIOLAÇÃO": 9, "SANITIZADO": 1, "PERMITIDO": 1, "SEGREDO NO CÓDIGO": 2}};</script>
+<script>
+const $=id=>document.getElementById(id);
+const CORES={BAIXO:'var(--good)',MODERADO:'var(--warning)',ALTO:'var(--serious)','CRÍTICO':'var(--critical)'};
+const ICONE={BAIXO:'✓',MODERADO:'!',ALTO:'▲','CRÍTICO':'✕'};
+const DEC={VAZOU:['var(--critical)','✕ VAZOU'],BLOQUEADO:['var(--good)','■ BLOQUEADO'],MASCARADO:['var(--good)','✓ MASCARADO'],PERMITIDO:['var(--neutral)','✓ PERMITIDO']};
+const CAT={IDENTIFICACAO:'CPF/documento',SAUDE:'Saúde',CREDENCIAL:'Senha/chave',LOCALIZACAO:'Endereço/local',CONTATO:'Telefone/e-mail',FINANCEIRO:'Financeiro',NASCIMENTO:'Nascimento'};
+const tip=$('tip');
+function showTip(e,h){tip.innerHTML=h;tip.style.display='block';tip.style.left=Math.min(e.clientX+14,innerWidth-260)+'px';tip.style.top=(e.clientY+14)+'px'}
+function hideTip(){tip.style.display='none'}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>(Math.round(n*10)/10).toLocaleString('pt-BR');
+
+function gauge(v,nivel){
+  const cx=120,cy=120,r=96,a=Math.PI*(1-Math.min(v,100)/100);
+  const arc=(a0,a1)=>`M${cx+r*Math.cos(a0)} ${cy-r*Math.sin(a0)} A${r} ${r} 0 0 1 ${cx+r*Math.cos(a1)} ${cy-r*Math.sin(a1)}`;
+  const faixas=[[0,15,'var(--good)'],[15,40,'var(--warning)'],[40,70,'var(--serious)'],[70,100,'var(--critical)']];
+  let s=faixas.map(([a0,a1,c])=>`<path d="${arc(Math.PI*(1-a0/100)-0.004,Math.PI*(1-a1/100)+0.004)}" stroke="${c}" stroke-width="5" fill="none" opacity=".35"/>`).join('');
+  s+=`<path d="${arc(Math.PI,Math.max(a,0.0001)-0.0001)}" stroke="${CORES[nivel]}" stroke-width="14" fill="none" stroke-linecap="round"/>`;
+  s+=`<text x="${cx-r}" y="${cy+22}" text-anchor="middle">0</text><text x="${cx+r}" y="${cy+22}" text-anchor="middle">100</text>`;
+  $('gauge').innerHTML=s;
+}
+
+function linha(serie){
+  const W=760,H=190,L=34,R=10,T=10,B=24,w=W-L-R,h=H-T-B,n=Math.max(serie.length,2);
+  const x=i=>L+w*(i/(n-1)),y=v=>T+h*(1-v/100);
+  let s='';
+  [0,25,50,75,100].forEach(v=>{s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`});
+  const ini=serie.findIndex(p=>p.fase.startsWith('2'));
+  if(ini>=0) s+=`<rect x="${x(ini)}" y="${T}" width="${W-R-x(ini)}" height="${h}" fill="var(--good)" opacity=".08"/><text x="${x(ini)+6}" y="${T+12}" style="font-weight:600">Guardião ativo</text><text x="${L+6}" y="${T+12}" style="font-weight:600">Sem proteção</text>`;
+  if(serie.length){
+    s+=`<path d="${serie.map((p,i)=>(i?'L':'M')+x(i)+' '+y(p.indice)).join(' ')}" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linejoin="round"/>`;
+    const u=serie[serie.length-1];s+=`<circle cx="${x(serie.length-1)}" cy="${y(u.indice)}" r="4.5" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"/>`;
+  }
+  s+=`<text x="${L}" y="${H-6}">evento 1</text><text x="${W-R}" y="${H-6}" text-anchor="end">evento ${serie.length}</text>`;
+  s+=`<line id="xh" y1="${T}" y2="${T+h}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/><rect id="hit" x="${L}" y="${T}" width="${w}" height="${h}" fill="transparent"/>`;
+  const el=$('linha');el.innerHTML=s;
+  const hit=el.querySelector('#hit'),xh=el.querySelector('#xh');
+  hit.onmousemove=e=>{const b=el.getBoundingClientRect(),px=(e.clientX-b.left)*W/b.width;const i=Math.max(0,Math.min(serie.length-1,Math.round((px-L)/w*(n-1))));const p=serie[i];if(!p)return;
+    xh.setAttribute('x1',x(i));xh.setAttribute('x2',x(i));xh.setAttribute('visibility','visible');showTip(e,`<b>Evento ${p.i}</b><br>${esc(p.fase)}<br>Risco Cidadão: <b>${fmt(p.indice)}</b>`)};
+  hit.onmouseleave=()=>{xh.setAttribute('visibility','hidden');hideTip()};
+}
+
+function barras(antes,depois){
+  const ks=[...new Set([...Object.keys(antes||{}),...Object.keys(depois||{})])].sort((p,q)=>((antes[q]||{}).real||0)-((antes[p]||{}).real||0));
+  const W=640,H=230,L=118,R=48,T=4,rowH=Math.min(32,(H-T)/Math.max(ks.length,1)),bw=10;
+  const val=(o,k)=>(o&&o[k])?o[k].real:0, max=Math.max(1,...ks.map(k=>Math.max(val(antes,k),val(depois,k))));let s='';
+  ks.forEach((k,i)=>{const y0=T+i*rowH,a=val(antes,k),d=val(depois,k),wa=(W-L-R)*a/max,wd=(W-L-R)*d/max;
+    s+=`<text x="${L-8}" y="${y0+bw+4}" text-anchor="end">${CAT[k]||k}</text>`;
+    s+=`<rect x="${L}" y="${y0}" width="${Math.max(wa,a>0?2:0)}" height="${bw}" rx="3" fill="var(--series-2)"/>`;
+    s+=`<rect x="${L}" y="${y0+bw+2}" width="${Math.max(wd,d>0?2:0)}" height="${bw}" rx="3" fill="var(--series-1)"/>`;
+    s+=`<text x="${L+wa+5}" y="${y0+bw-1}">${fmt(a)}</text><text x="${L+Math.max(wd,2)+5}" y="${y0+2*bw+1}">${fmt(d)}</text>`;
+    s+=`<rect class="h" data-k="${k}" x="0" y="${y0-2}" width="${W}" height="${rowH}" fill="transparent"/>`;});
+  const el=$('barras');el.innerHTML=s;
+  el.querySelectorAll('.h').forEach(r=>{const k=r.dataset.k,a=val(antes,k),d=val(depois,k);r.onmousemove=e=>showTip(e,`<b>${CAT[k]||k}</b><br>Antes: ${fmt(a)} pontos<br>Depois: <b>${fmt(d)}</b> pontos<br>Redução: ${a?Math.round(100*(1-d/a)):0}%`);r.onmouseleave=hideTip});
+}
+
+function render(d){
+  const r=d.risco;
+  $('indice').textContent=fmt(r.indice_atual);$('janela').textContent=r.janela;
+  $('nivel').innerHTML=`<span style="color:${CORES[r.nivel]}">${ICONE[r.nivel]}</span> Nível ${r.nivel}`;
+  gauge(r.indice_atual,r.nivel);
+  const fA=Object.entries(d.fases).find(([k])=>k.startsWith('1')),fD=Object.entries(d.fases).find(([k])=>k.startsWith('2'));
+  $('antes').innerHTML=fA?`${fmt(fA[1].indice_acumulado)} <small style="display:inline">${fA[1].nivel}</small>`:'-';
+  $('depois').innerHTML=fD?`${fmt(fD[1].indice_acumulado)} <small style="display:inline">${fD[1].nivel}</small>`:'aguardando';
+  const pr=d.modo==='proteger';
+  $('modo').innerHTML=`<span class="dot" style="background:${pr?'var(--good)':'var(--critical)'}"></span><span>${pr?'Guardião ATIVO (proteger)':'SEM PROTEÇÃO (só monitorando)'}</span>`;
+  $('atualizado').textContent='Atualizado '+new Date(d.gerado_em*1000).toLocaleTimeString('pt-BR');
+  const rf=d.risco_fase||r,dc=rf.decisoes;$('fase-atual').textContent=(d.fase_atual||'').slice(2)||'-';
+  const k=[['Saídas auditadas',rf.eventos,'var(--neutral)'],['Vazamentos',dc.VAZOU||0,'var(--critical)'],['Bloqueados',dc.BLOQUEADO||0,'var(--good)'],
+    ['Mascarados',dc.MASCARADO||0,'var(--good)'],['Moradores expostos',rf.moradores_expostos,'var(--critical)'],['Moradores protegidos',rf.moradores_protegidos,'var(--good)']];
+  $('kpis').innerHTML=k.map(([t,v,c])=>`<div class="kpi"><small><i class="dot" style="background:${c}"></i>${t}</small><strong>${v}</strong></div>`).join('');
+  linha(r.serie);barras(fA?fA[1].por_categoria:{},fD?fD[1].por_categoria:{});
+  const cam=r.camadas,tot=Object.values(cam).reduce((a,b)=>a+b,0)||1;
+  $('camadas').innerHTML=[['1-rótulo propagado','1 · Rótulo propagado (fluxo explícito)'],['2-valor contaminado','2 · Valor reconhecido após f-string/str()'],['3-conteúdo (motor PII)','3 · Motor PII no conteúdo (não rastreado)']]
+    .map(([c,t])=>`<div><span>${t}</span><b>${cam[c]||0} <small style="color:var(--muted)">(${Math.round(100*(cam[c]||0)/tot)}%)</small></b></div>`).join('');
+  const sa=d.sast||{};$('sast').innerHTML=Object.keys(sa).length?Object.entries(sa).map(([k,v])=>`<div><span>${esc(k)}</span><b>${v}</b></div>`).join(''):'<div><span>rode gerar_evidencias.py</span><b>-</b></div>';
+  const nivCor={'baixo':'var(--good)','médio':'var(--warning)','medio':'var(--warning)','alto':'var(--serious)','crítico':'var(--critical)','critico':'var(--critical)'};
+  const abertos=new Set([...document.querySelectorAll('#alertas details[open]')].map(x=>x.dataset.k));
+  $('alertas').innerHTML=(d.alertas||[]).map(a=>`<div class="alert" style="border-left-color:${nivCor[a.nivel_risco]||'var(--neutral)'}">
+    <h3>${esc(a.titulo)}</h3><p>${esc(a.mensagem_cidadao)}</p>${(a.o_que_fazer||[]).length?'<ul>'+a.o_que_fazer.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':''}
+    <div class="meta">Risco para o cidadão: <b>${esc(a.nivel_risco)}</b> · ${esc(a.evento.saida)} · ${esc(a.fase)}</div>
+    <details data-k="${esc(a.fase+'|'+a.evento.saida+'|'+a.evento.decisao+'|'+a.evento.categorias_expostas.join(','))}"><summary>Correção para a equipe</summary>${esc(a.correcao_tecnica)}<br><span class="meta">Gerado por: ${esc(a.fonte_ia)}</span></details></div>`).join('')||'<p class="hint">Nenhum alerta ainda.</p>';
+  document.querySelectorAll('#alertas details').forEach(x=>{if(abertos.has(x.dataset.k))x.open=true});
+  $('eventos').innerHTML=(d.ultimos||[]).map(e=>{const [c,t]=DEC[e.decisao]||['var(--neutral)',e.decisao];
+    return `<tr><td>${new Date(e.ts*1000).toLocaleTimeString('pt-BR')}</td><td>${esc(e.fase.slice(2))}</td><td><code>${esc(e.sink)}</code></td><td>${esc(e.categorias.map(x=>CAT[x]||x).join(', '))}</td><td>${esc(e.camadas.join(', '))}</td><td><span class="chip" style="color:${c}">${t}</span></td><td><code>${esc(e.local)}</code></td></tr>`}).join('');
+}
+
+if(window.__ESTADO__){render(window.__ESTADO__)}
+else{let ultimo='';const tick=()=>fetch('/api/estado').then(r=>r.json()).then(d=>{const chave=JSON.stringify({...d,gerado_em:0});
+  if(chave===ultimo){$('atualizado').textContent='Atualizado '+new Date(d.gerado_em*1000).toLocaleTimeString('pt-BR');return}
+  ultimo=chave;render(d)}).catch(()=>{});tick();setInterval(tick,1500)}
+</script>
+</body>
+</html>

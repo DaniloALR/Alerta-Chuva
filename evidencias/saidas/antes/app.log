@@ -1,0 +1,34 @@
+INFO  Novo cadastro recebido: {'nome': 'Morador Teste A', 'cpf': '529.982.247-25', 'telefone': '(11) 98765-4321', 'senha': 'Chuva@1234', 'endereco': 'Rua das Garças, 77', 'cep': '08062-120', 'condicao_saude': 'gestante'}
+DEBUG payload bruto do app (b64): eyJub21lIjogIk1vcmFkb3IgVGVzdGUgQSIsICJjcGYiOiAiNTI5Ljk4Mi4yNDctMjUiLCAidGVsZWZvbmUiOiAiKDExKSA5ODc2NS00MzIxIiwgInNlbmhhIjogIkNodXZhQDEyMzQiLCAiZW5kZXJlY28iOiAiUnVhIGRhcyBHYXJcdTAwZTdhcywgNzciLCAiY2VwIjogIjA4MDYyLTEyMCIsICJjb25kaWNhb19zYXVkZSI6ICJnZXN0YW50ZSJ9
+DEBUG SMS enviado para (11) 99975-9042
+INFO  Alerta entregue ao morador (11) *****-9042
+DEBUG SMS enviado para (11) 96577-2469
+INFO  Alerta entregue ao morador (11) *****-2469
+DEBUG SMS enviado para (11) 97970-9296
+INFO  Alerta entregue ao morador (11) *****-9296
+DEBUG SMS enviado para (11) 93333-8898
+INFO  Alerta entregue ao morador (11) *****-8898
+DEBUG SMS enviado para (11) 91151-1542
+INFO  Alerta entregue ao morador (11) *****-1542
+DEBUG SMS enviado para (11) 98749-3149
+INFO  Alerta entregue ao morador (11) *****-3149
+DEBUG SMS enviado para (11) 96685-6790
+INFO  Alerta entregue ao morador (11) *****-6790
+DEBUG SMS enviado para (11) 96766-3568
+INFO  Alerta entregue ao morador (11) *****-3568
+DEBUG SMS enviado para (11) 91990-6836
+INFO  Alerta entregue ao morador (11) *****-6836
+DEBUG SMS enviado para (11) 91938-2580
+INFO  Alerta entregue ao morador (11) *****-2580
+DEBUG SMS enviado para (11) 97981-2956
+INFO  Alerta entregue ao morador (11) *****-2956
+DEBUG SMS enviado para (11) 96224-1332
+INFO  Alerta entregue ao morador (11) *****-1332
+DEBUG SMS enviado para (11) 98709-1955
+INFO  Alerta entregue ao morador (11) *****-1955
+DEBUG SMS enviado para (11) 91681-4109
+INFO  Alerta entregue ao morador (11) *****-4109
+ERROR falha na ingestão: broker mqtt://sensor:Pnt4n4l#2026@mqtt.alertachuva.local:1883 recusou a conexão (token Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlc3AzMiJ9.c2lnbmF0dXJh)
+INFO  Novo cadastro recebido: {'nome': 'Morador Teste B', 'cpf': '168.995.350-09', 'telefone': '11 91234-5678', 'senha': 'Pantanal#99', 'endereco': 'Rua Lagoa Azul, 310', 'data_nascimento': '14/02/1951'}
+DEBUG payload bruto do app (b64): eyJub21lIjogIk1vcmFkb3IgVGVzdGUgQiIsICJjcGYiOiAiMTY4Ljk5NS4zNTAtMDkiLCAidGVsZWZvbmUiOiAiMTEgOTEyMzQtNTY3OCIsICJzZW5oYSI6ICJQYW50YW5hbCM5OSIsICJlbmRlcmVjbyI6ICJSdWEgTGFnb2EgQXp1bCwgMzEwIiwgImRhdGFfbmFzY2ltZW50byI6ICIxNC8wMi8xOTUxIn0=
+INFO  sensor ESP32-PANTANAL-01: nível 50 cm

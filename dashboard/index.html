@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AlertaChuva · Guardião · Risco Cidadão</title>
+<style>
+.viz-root{color-scheme:light;--bg:#f3f2ee;--surface-1:#fcfcfb;--line:#e4e2dc;--grid:#ecebe6;--text-primary:#0b0b0b;--text-secondary:#52514e;--muted:#7a7974;
+--series-1:#2a78d6;--series-2:#eb6834;--good:#0ca30c;--warning:#fab219;--serious:#ec835a;--critical:#d03b3b;--neutral:#8a8983;--brand:#104281}
+@media (prefers-color-scheme:dark){:root .viz-root{color-scheme:dark;--bg:#121211;--surface-1:#1a1a19;--line:#2c2c2a;--grid:#262624;--text-primary:#f0efec;--text-secondary:#c3c2b7;--muted:#97968f;--series-1:#3987e5;--series-2:#d95926;--brand:#86b6ef}}
+*{box-sizing:border-box}body{margin:0}
+.viz-root{background:var(--bg);color:var(--text-primary);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;padding:20px 24px 32px}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+header h1{font-size:20px;margin:0;letter-spacing:-.01em}header h1 b{color:var(--brand)}
+header .sub{color:var(--text-secondary);font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-1);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%}
+.spacer{flex:1}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+.card{background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.card h2{font-size:13px;margin:0 0 2px;font-weight:650}.card .hint{color:var(--muted);font-size:12px;margin:0 0 10px}
+.c4{grid-column:span 4}.c8{grid-column:span 8}.c6{grid-column:span 6}.c12{grid-column:span 12}.c5{grid-column:span 5}.c7{grid-column:span 7}
+@media(max-width:1100px){.c4,.c8,.c6,.c5,.c7{grid-column:span 12}}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero .num{font-size:64px;font-weight:750;letter-spacing:-.03em;line-height:1;margin-top:-72px;font-variant-numeric:tabular-nums}
+.hero .lvl{margin-top:8px}
+.hero .cmp{display:flex;gap:10px;margin-top:14px;width:100%}
+.hero .cmp div{flex:1;border:1px solid var(--line);border-radius:10px;padding:8px}
+.hero .cmp small{display:block;color:var(--text-secondary);font-size:11px}
+.hero .cmp strong{font-size:20px;font-variant-numeric:tabular-nums}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kpi small{color:var(--text-secondary);font-size:12px;display:flex;align-items:center;gap:6px}
+.kpi strong{font-size:26px;font-variant-numeric:tabular-nums;display:block;margin-top:2px}
+svg text{fill:var(--text-secondary);font-size:11px}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--text-secondary);margin-bottom:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}.sw{width:10px;height:10px;border-radius:3px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--grid);vertical-align:top}
+td code{font-size:11.5px;color:var(--text-secondary)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-weight:650;font-size:11.5px;white-space:nowrap}
+.alerts{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.alert{border:1px solid var(--line);border-left:4px solid var(--neutral);border-radius:10px;padding:12px 14px}
+.alert h3{font-size:13.5px;margin:0 0 4px}.alert p{margin:0 0 8px;font-size:13px}
+.alert ul{margin:0 0 8px;padding-left:18px;font-size:12.5px;color:var(--text-secondary)}
+.alert .meta{font-size:11px;color:var(--muted)}
+.alert details{font-size:12px;color:var(--text-secondary)}.alert summary{cursor:pointer;color:var(--text-primary)}
+#tip{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--line);box-shadow:0 4px 18px rgba(0,0,0,.12);border-radius:8px;padding:7px 10px;font-size:12px;display:none;z-index:9}
+.foot{color:var(--muted);font-size:11.5px;margin-top:14px}
+.layers div{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--grid);font-size:13px}
+.layers b{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="viz-root">
+<header>
+  <div><h1><b>AlertaChuva</b> · Guardião de Privacidade</h1>
+  <div class="sub">Dashboard executivo · Jardim Pantanal, São Paulo · dados sintéticos de moradores</div></div>
+  <div class="spacer"></div>
+  <span class="pill" id="modo"><span class="dot"></span><span>-</span></span>
+  <span class="pill" id="atualizado">-</span>
+</header>
+
+<div class="grid">
+  <section class="card c4 hero" aria-labelledby="t-risco">
+    <h2 id="t-risco">Risco Cidadão (agora)</h2>
+    <p class="hint">Do dano possível à privacidade dos moradores, quanto chegou de fato a eles · últimos <span id="janela">20</span> eventos</p>
+    <svg id="gauge" viewBox="0 0 240 146" width="260" role="img" aria-label="Medidor do Risco Cidadão"></svg>
+    <div class="num" id="indice">-</div>
+    <div class="lvl"><span class="chip" id="nivel">-</span></div>
+    <div class="cmp">
+      <div><small>Antes (sem Guardião)</small><strong id="antes">-</strong></div>
+      <div><small>Depois (Guardião ativo)</small><strong id="depois">-</strong></div>
+    </div>
+  </section>
+
+  <section class="card c8" aria-labelledby="t-kpi">
+    <h2 id="t-kpi">Resumo da auditoria · <span id="fase-atual">-</span></h2><p class="hint">Saídas de dados interceptadas pelo Taint Analysis na fase atual</p>
+    <div class="kpis" id="kpis"></div>
+    <div style="margin-top:14px"><h2>Evolução do Risco Cidadão</h2><p class="hint">Índice móvel por evento auditado · faixa sombreada = Guardião ativo</p>
+    <svg id="linha" viewBox="0 0 760 190" width="100%" role="img" aria-label="Série do índice de risco"></svg></div>
+  </section>
+
+  <section class="card c7" aria-labelledby="t-cat">
+    <h2 id="t-cat">Risco real por tipo de dado: antes × depois</h2><p class="hint">Pontos de risco que chegaram ao cidadão (peso LGPD × exposição do canal × desfecho)</p>
+    <div class="legend"><span><i class="sw" style="background:var(--series-2)"></i>Antes (sem Guardião)</span><span><i class="sw" style="background:var(--series-1)"></i>Depois (Guardião ativo)</span></div>
+    <svg id="barras" viewBox="0 0 640 230" width="100%" role="img" aria-label="Risco por categoria de dado"></svg>
+  </section>
+
+  <section class="card c5" aria-labelledby="t-cam">
+    <h2 id="t-cam">Como os vazamentos foram detectados</h2><p class="hint">Camadas do Taint Analysis (achados em saídas proibidas)</p>
+    <div class="layers" id="camadas"></div>
+    <h2 style="margin-top:16px">Análise estática (SAST) do código</h2><p class="hint">Fluxos fonte → saída encontrados sem executar o código</p>
+    <div class="layers" id="sast"></div>
+  </section>
+
+  <section class="card c12" aria-labelledby="t-ia">
+    <h2 id="t-ia">Alertas ao cidadão gerados pela IA</h2><p class="hint">Falhas técnicas traduzidas em risco real e ação simples, mais a correção para a equipe</p>
+    <div class="alerts" id="alertas"></div>
+  </section>
+
+  <section class="card c12" aria-labelledby="t-ev">
+    <h2 id="t-ev">Últimos eventos auditados</h2><p class="hint">Visão em tabela · nenhum valor pessoal é armazenado, apenas categoria, origem e local do código</p>
+    <div style="overflow:auto"><table><thead><tr><th>Hora</th><th>Fase</th><th>Saída</th><th>Dados detectados</th><th>Camada</th><th>Decisão</th><th>Local no código</th></tr></thead><tbody id="eventos"></tbody></table></div>
+  </section>
+</div>
+<div class="foot">Risco Cidadão = 100 × Σ(peso da categoria × exposição × desfecho) ÷ Σ(peso × exposição). Desfecho: vazou 1,0 · mascarado 0,05 · bloqueado 0. Faixas: &lt;15 baixo · &lt;40 moderado · &lt;70 alto · ≥70 crítico.</div>
+<div id="tip"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const CORES={BAIXO:'var(--good)',MODERADO:'var(--warning)',ALTO:'var(--serious)','CRÍTICO':'var(--critical)'};
+const ICONE={BAIXO:'✓',MODERADO:'!',ALTO:'▲','CRÍTICO':'✕'};
+const DEC={VAZOU:['var(--critical)','✕ VAZOU'],BLOQUEADO:['var(--good)','■ BLOQUEADO'],MASCARADO:['var(--good)','✓ MASCARADO'],PERMITIDO:['var(--neutral)','✓ PERMITIDO']};
+const CAT={IDENTIFICACAO:'CPF/documento',SAUDE:'Saúde',CREDENCIAL:'Senha/chave',LOCALIZACAO:'Endereço/local',CONTATO:'Telefone/e-mail',FINANCEIRO:'Financeiro',NASCIMENTO:'Nascimento'};
+const tip=$('tip');
+function showTip(e,h){tip.innerHTML=h;tip.style.display='block';tip.style.left=Math.min(e.clientX+14,innerWidth-260)+'px';tip.style.top=(e.clientY+14)+'px'}
+function hideTip(){tip.style.display='none'}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>(Math.round(n*10)/10).toLocaleString('pt-BR');
+
+function gauge(v,nivel){
+  const cx=120,cy=120,r=96,a=Math.PI*(1-Math.min(v,100)/100);
+  const arc=(a0,a1)=>`M${cx+r*Math.cos(a0)} ${cy-r*Math.sin(a0)} A${r} ${r} 0 0 1 ${cx+r*Math.cos(a1)} ${cy-r*Math.sin(a1)}`;
+  const faixas=[[0,15,'var(--good)'],[15,40,'var(--warning)'],[40,70,'var(--serious)'],[70,100,'var(--critical)']];
+  let s=faixas.map(([a0,a1,c])=>`<path d="${arc(Math.PI*(1-a0/100)-0.004,Math.PI*(1-a1/100)+0.004)}" stroke="${c}" stroke-width="5" fill="none" opacity=".35"/>`).join('');
+  s+=`<path d="${arc(Math.PI,Math.max(a,0.0001)-0.0001)}" stroke="${CORES[nivel]}" stroke-width="14" fill="none" stroke-linecap="round"/>`;
+  s+=`<text x="${cx-r}" y="${cy+22}" text-anchor="middle">0</text><text x="${cx+r}" y="${cy+22}" text-anchor="middle">100</text>`;
+  $('gauge').innerHTML=s;
+}
+
+function linha(serie){
+  const W=760,H=190,L=34,R=10,T=10,B=24,w=W-L-R,h=H-T-B,n=Math.max(serie.length,2);
+  const x=i=>L+w*(i/(n-1)),y=v=>T+h*(1-v/100);
+  let s='';
+  [0,25,50,75,100].forEach(v=>{s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`});
+  const ini=serie.findIndex(p=>p.fase.startsWith('2'));
+  if(ini>=0) s+=`<rect x="${x(ini)}" y="${T}" width="${W-R-x(ini)}" height="${h}" fill="var(--good)" opacity=".08"/><text x="${x(ini)+6}" y="${T+12}" style="font-weight:600">Guardião ativo</text><text x="${L+6}" y="${T+12}" style="font-weight:600">Sem proteção</text>`;
+  if(serie.length){
+    s+=`<path d="${serie.map((p,i)=>(i?'L':'M')+x(i)+' '+y(p.indice)).join(' ')}" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linejoin="round"/>`;
+    const u=serie[serie.length-1];s+=`<circle cx="${x(serie.length-1)}" cy="${y(u.indice)}" r="4.5" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"/>`;
+  }
+  s+=`<text x="${L}" y="${H-6}">evento 1</text><text x="${W-R}" y="${H-6}" text-anchor="end">evento ${serie.length}</text>`;
+  s+=`<line id="xh" y1="${T}" y2="${T+h}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/><rect id="hit" x="${L}" y="${T}" width="${w}" height="${h}" fill="transparent"/>`;
+  const el=$('linha');el.innerHTML=s;
+  const hit=el.querySelector('#hit'),xh=el.querySelector('#xh');
+  hit.onmousemove=e=>{const b=el.getBoundingClientRect(),px=(e.clientX-b.left)*W/b.width;const i=Math.max(0,Math.min(serie.length-1,Math.round((px-L)/w*(n-1))));const p=serie[i];if(!p)return;
+    xh.setAttribute('x1',x(i));xh.setAttribute('x2',x(i));xh.setAttribute('visibility','visible');showTip(e,`<b>Evento ${p.i}</b><br>${esc(p.fase)}<br>Risco Cidadão: <b>${fmt(p.indice)}</b>`)};
+  hit.onmouseleave=()=>{xh.setAttribute('visibility','hidden');hideTip()};
+}
+
+function barras(antes,depois){
+  const ks=[...new Set([...Object.keys(antes||{}),...Object.keys(depois||{})])].sort((p,q)=>((antes[q]||{}).real||0)-((antes[p]||{}).real||0));
+  const W=640,H=230,L=118,R=48,T=4,rowH=Math.min(32,(H-T)/Math.max(ks.length,1)),bw=10;
+  const val=(o,k)=>(o&&o[k])?o[k].real:0, max=Math.max(1,...ks.map(k=>Math.max(val(antes,k),val(depois,k))));let s='';
+  ks.forEach((k,i)=>{const y0=T+i*rowH,a=val(antes,k),d=val(depois,k),wa=(W-L-R)*a/max,wd=(W-L-R)*d/max;
+    s+=`<text x="${L-8}" y="${y0+bw+4}" text-anchor="end">${CAT[k]||k}</text>`;
+    s+=`<rect x="${L}" y="${y0}" width="${Math.max(wa,a>0?2:0)}" height="${bw}" rx="3" fill="var(--series-2)"/>`;
+    s+=`<rect x="${L}" y="${y0+bw+2}" width="${Math.max(wd,d>0?2:0)}" height="${bw}" rx="3" fill="var(--series-1)"/>`;
+    s+=`<text x="${L+wa+5}" y="${y0+bw-1}">${fmt(a)}</text><text x="${L+Math.max(wd,2)+5}" y="${y0+2*bw+1}">${fmt(d)}</text>`;
+    s+=`<rect class="h" data-k="${k}" x="0" y="${y0-2}" width="${W}" height="${rowH}" fill="transparent"/>`;});
+  const el=$('barras');el.innerHTML=s;
+  el.querySelectorAll('.h').forEach(r=>{const k=r.dataset.k,a=val(antes,k),d=val(depois,k);r.onmousemove=e=>showTip(e,`<b>${CAT[k]||k}</b><br>Antes: ${fmt(a)} pontos<br>Depois: <b>${fmt(d)}</b> pontos<br>Redução: ${a?Math.round(100*(1-d/a)):0}%`);r.onmouseleave=hideTip});
+}
+
+function render(d){
+  const r=d.risco;
+  $('indice').textContent=fmt(r.indice_atual);$('janela').textContent=r.janela;
+  $('nivel').innerHTML=`<span style="color:${CORES[r.nivel]}">${ICONE[r.nivel]}</span> Nível ${r.nivel}`;
+  gauge(r.indice_atual,r.nivel);
+  const fA=Object.entries(d.fases).find(([k])=>k.startsWith('1')),fD=Object.entries(d.fases).find(([k])=>k.startsWith('2'));
+  $('antes').innerHTML=fA?`${fmt(fA[1].indice_acumulado)} <small style="display:inline">${fA[1].nivel}</small>`:'-';
+  $('depois').innerHTML=fD?`${fmt(fD[1].indice_acumulado)} <small style="display:inline">${fD[1].nivel}</small>`:'aguardando';
+  const pr=d.modo==='proteger';
+  $('modo').innerHTML=`<span class="dot" style="background:${pr?'var(--good)':'var(--critical)'}"></span><span>${pr?'Guardião ATIVO (proteger)':'SEM PROTEÇÃO (só monitorando)'}</span>`;
+  $('atualizado').textContent='Atualizado '+new Date(d.gerado_em*1000).toLocaleTimeString('pt-BR');
+  const rf=d.risco_fase||r,dc=rf.decisoes;$('fase-atual').textContent=(d.fase_atual||'').slice(2)||'-';
+  const k=[['Saídas auditadas',rf.eventos,'var(--neutral)'],['Vazamentos',dc.VAZOU||0,'var(--critical)'],['Bloqueados',dc.BLOQUEADO||0,'var(--good)'],
+    ['Mascarados',dc.MASCARADO||0,'var(--good)'],['Moradores expostos',rf.moradores_expostos,'var(--critical)'],['Moradores protegidos',rf.moradores_protegidos,'var(--good)']];
+  $('kpis').innerHTML=k.map(([t,v,c])=>`<div class="kpi"><small><i class="dot" style="background:${c}"></i>${t}</small><strong>${v}</strong></div>`).join('');
+  linha(r.serie);barras(fA?fA[1].por_categoria:{},fD?fD[1].por_categoria:{});
+  const cam=r.camadas,tot=Object.values(cam).reduce((a,b)=>a+b,0)||1;
+  $('camadas').innerHTML=[['1-rótulo propagado','1 · Rótulo propagado (fluxo explícito)'],['2-valor contaminado','2 · Valor reconhecido após f-string/str()'],['3-conteúdo (motor PII)','3 · Motor PII no conteúdo (não rastreado)']]
+    .map(([c,t])=>`<div><span>${t}</span><b>${cam[c]||0} <small style="color:var(--muted)">(${Math.round(100*(cam[c]||0)/tot)}%)</small></b></div>`).join('');
+  const sa=d.sast||{};$('sast').innerHTML=Object.keys(sa).length?Object.entries(sa).map(([k,v])=>`<div><span>${esc(k)}</span><b>${v}</b></div>`).join(''):'<div><span>rode gerar_evidencias.py</span><b>-</b></div>';
+  const nivCor={'baixo':'var(--good)','médio':'var(--warning)','medio':'var(--warning)','alto':'var(--serious)','crítico':'var(--critical)','critico':'var(--critical)'};
+  const abertos=new Set([...document.querySelectorAll('#alertas details[open]')].map(x=>x.dataset.k));
+  $('alertas').innerHTML=(d.alertas||[]).map(a=>`<div class="alert" style="border-left-color:${nivCor[a.nivel_risco]||'var(--neutral)'}">
+    <h3>${esc(a.titulo)}</h3><p>${esc(a.mensagem_cidadao)}</p>${(a.o_que_fazer||[]).length?'<ul>'+a.o_que_fazer.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':''}
+    <div class="meta">Risco para o cidadão: <b>${esc(a.nivel_risco)}</b> · ${esc(a.evento.saida)} · ${esc(a.fase)}</div>
+    <details data-k="${esc(a.fase+'|'+a.evento.saida+'|'+a.evento.decisao+'|'+a.evento.categorias_expostas.join(','))}"><summary>Correção para a equipe</summary>${esc(a.correcao_tecnica)}<br><span class="meta">Gerado por: ${esc(a.fonte_ia)}</span></details></div>`).join('')||'<p class="hint">Nenhum alerta ainda.</p>';
+  document.querySelectorAll('#alertas details').forEach(x=>{if(abertos.has(x.dataset.k))x.open=true});
+  $('eventos').innerHTML=(d.ultimos||[]).map(e=>{const [c,t]=DEC[e.decisao]||['var(--neutral)',e.decisao];
+    return `<tr><td>${new Date(e.ts*1000).toLocaleTimeString('pt-BR')}</td><td>${esc(e.fase.slice(2))}</td><td><code>${esc(e.sink)}</code></td><td>${esc(e.categorias.map(x=>CAT[x]||x).join(', '))}</td><td>${esc(e.camadas.join(', '))}</td><td><span class="chip" style="color:${c}">${t}</span></td><td><code>${esc(e.local)}</code></td></tr>`}).join('');
+}
+
+if(window.__ESTADO__){render(window.__ESTADO__)}
+else{let ultimo='';const tick=()=>fetch('/api/estado').then(r=>r.json()).then(d=>{const chave=JSON.stringify({...d,gerado_em:0});
+  if(chave===ultimo){$('atualizado').textContent='Atualizado '+new Date(d.gerado_em*1000).toLocaleTimeString('pt-BR');return}
+  ultimo=chave;render(d)}).catch(()=>{});tick();setInterval(tick,1500)}
+</script>
+</body>
+</html>

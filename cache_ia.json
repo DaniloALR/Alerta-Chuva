@@ -1,0 +1,741 @@
+{
+ "v5|ollama|llama3.2|log_aplicacao|VAZOU|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Alerta: Falha no sistema, mas pronto para corrigir",
+  "mensagem_cidadao": "Descobrimos uma falha que expôs seu CPF e informações de saúde. Já estamos trabalhando para corrigir. Seus alertas de chuva continuam funcionando normalmente.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF, o AlertaChuva não pede.",
+   "Ninguém precisa saber sua condição de saúde para nos ajudar.",
+   "Troque sua senha do app agora."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|sms_alerta_individual|VAZOU|IDENTIFICACAO": {
+  "titulo": "Alerta de Chuva: Falha de Segurança",
+  "mensagem_cidadao": "Descobrimos uma falha que expôs seu CPF no SMS de alerta. Já estamos corrigindo o problema. Sua conta continua segura, mas é importante estar atento a ligações e SMS que peçam confirmação de dados pessoais.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede.",
+   "Verifique o app regularmente para garantir que ele esteja funcionando corretamente."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Remover documento do texto do SMS; identificar o morador pelo ID e confirmar identidade pelo app.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|log_aplicacao|VAZOU|CONTATO": {
+  "titulo": "Seu contato foi visível nos registros internos",
+  "mensagem_cidadao": "Desculpe pela preocupação, mas seu telefone ou e-mail ficou visível nos registros internos do sistema. Já corrigimos a falha e estamos monitorando. Seus alertas de chuva continuam funcionando normalmente.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Verifique se o número está correto e ignore links de outros números."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|llm_externo|VAZOU|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Alerta de vulnerabilidade: sua saúde foi exposta",
+  "mensagem_cidadao": "Infelizmente, sua saúde foi compartilhada com um serviço de inteligência artificial externo. Estamos trabalhando para corrigir a falha e monitorar a situação.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede.",
+   "Ninguém precisa saber da sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Alerta: Falha no mapa de ocorrências",
+  "mensagem_cidadao": "Descobrimos uma falha no nosso mapa de ocorrências, mas corrigimos e estamos monitorando. Sua informação de saúde não foi exposta e os alertas de chuva continuam funcionando normalmente.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede.",
+   "Ninguém precisa saber da sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|log_aplicacao|VAZOU|CREDENCIAL": {
+  "titulo": "Falha no sistema: senha pode ter sido vista",
+  "mensagem_cidadao": "Descobrimos um problema, mas não há risco imediato. Troque sua senha agora e evite usar a mesma em outros serviços.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Troque sua senha",
+   "Não repita a mesma senha em outros serviços",
+   "Verifique sua senha agora mesmo."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|canal_publico_bairro|VAZOU|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais foram expostas no canal aberto do…",
+  "mensagem_cidadao": "Desculpe, uma informação sobre sua saúde e endereço ficaram visíveis. Corrigimos a falha e estamos monitorando. Sua conta de alertas de chuva continua normal.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Ninguém precisa saber da sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Os alertas oficiais vêm sempre do mesmo número. Ignote links de outros números."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Publicar só dados agregados (\"12 famílias prioritárias\"); lista nominal vai apenas para a Defesa Civil.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|LOCALIZACAO": {
+  "titulo": "Seu endereço foi visível no mapa de ocorrências",
+  "mensagem_cidadao": "Corrigimos a falha e estamos monitorando. Sua conta continua normal, mas lembre-se de que apenas o Defesa Civil pode solicitar seu endereço: ligue 199 se for necessário.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém aparecer com esse motivo",
+   "Verifique se o endereço está corrigido no aplicativo"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|api_http_resposta|VAZOU|CONTATO,IDENTIFICACAO,LOCALIZACAO": {
+  "titulo": "Alerta de segurança: Falha no sistema",
+  "mensagem_cidadao": "Descobrimos uma falha que expôs seu CPF e endereço, mas já estamos trabalhando para corrigir. Seus alertas de chuva continuam funcionando normalmente, mas tenha cuidado com ligações e SMS",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Ignore links de outros números."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Exigir autenticação e checar solicitante == titular (controle de acesso por objeto, OWASP API1).",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|exportacao_defesa_civil|VAZOU|IDENTIFICACAO": {
+  "titulo": "Alerta: Falha de segurança no arquivo de Defesa Civil",
+  "mensagem_cidadao": "Descobrimos uma falha: seu CPF ficou visível em um arquivo, mas estamos corrigindo e monitorando. Não há afetação aos seus alertas de chuva.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Trocar CPF por pseudonimizar(); a Defesa Civil precisa de endereço e condição, não de documento.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|llm_externo|VAZOU|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais foram expostas",
+  "mensagem_cidadao": "Desculpe, uma informação sobre sua saúde e endereço ficaram visíveis para um serviço externo. Estamos trabalhando para corrigir isso. Alertas de chuva continuam normal. Mantenha-se atento ao número de telefone oficial: 199 (Defesa Civil).",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém desconhecido contatar",
+   "Ignore links de outros números",
+   "Mantenha-se atento ao número oficial de alerta: 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Alerta de Chuva: Falha no Mapa Púbico",
+  "mensagem_cidadao": "Desculpe, sua saúde e endereço ficaram visíveis no mapa de ocorrências, mas já estamos corrigindo o problema. Seus alertas de chuva continuam funcionando normalmente.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Verifique se alguém desconhecido está pedindo informações pessoais",
+   "Ligue 199 (Defesa Civil) se alguém disser que veio pelo AlertaChuva",
+   "Ignore links de outros números no seu alerta de chuva"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|log_aplicacao|VAZOU|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,NASCIMENTO": {
+  "titulo": "Alerta de segurança: dados pessoais expostos",
+  "mensagem_cidadao": "Descobrimos uma falha no sistema e seus dados pessoais podem ter sido vistos. Troquem sua senha imediatamente e não repitam a mesma senha em outros serviços. Se alguém disser que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução",
+   "Não repita a mesma senha em outros serviços",
+   "Ligue 199 (Defesa Civil) se alguém disser que veio pelo AlertaChuva"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|llm_externo|VAZOU|CONTATO,CREDENCIAL": {
+  "titulo": "Alerta: Falha de segurança no nosso app",
+  "mensagem_cidadao": "Descobrimos uma falha que afetou apenas nossos dados. Corrigimos e estamos monitorando. Seus alertas de chuva continuam funcionais.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Troque sua senha por precaução e não repita a mesma senha em outros serviços.",
+   "Ignore links de números desconhecidos."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|CONTATO,CREDENCIAL,LOCALIZACAO": {
+  "titulo": "Alerta: Senhas e endereços de casa podem ter sido vistos no…",
+  "mensagem_cidadao": "Desculpe, mas sua senha e endereço de casa podem ter ficado visíveis por um momento. Trocamos a senha e estamos monitorando. Não há problemas com os alertas de chuva.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Troque sua senha por precaução e não repita a mesma senha em outros serviços.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Ignore links de outros números."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|log_aplicacao|MASCARADO|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais protegidas",
+  "mensagem_cidadao": "Nada foi exposto e seu alerta de chuva chegou normalmente. Sua saúde é confidencial e só vai para a Defesa Civil.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF",
+   "Troque sua senha do app por precaução",
+   "Não repita a mesma senha em outros serviços"
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|log_aplicacao|MASCARADO|CONTATO": {
+  "titulo": "Seu telefone e e-mail estão seguros",
+  "mensagem_cidadao": "Nossos sistemas de segurança protegeram seus dados. O seu alerta de chuva chegou normalmente e tudo está bem.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Verifique o número do AlertaChuva para confirmar a autenticidade."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|llm_externo|MASCARADO|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Sua saúde e CPF foram protegidos",
+  "mensagem_cidadao": "Nada foi exposto, o AlertaChuva protegeu seus dados. Seu alerta de chuva chegou normalmente e você não precisa compartilhar sua saúde com ninguém.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Ninguém precisa saber sua condição de saúde para te ajudar.",
+   "Ligue 199 (Defesa Civil) se alguém desconhecido aparecer com essa informação."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais foram protegidas no alerta de chuva",
+  "mensagem_cidadao": "Tiramos seu CPF e informações de saúde do alerta antes de compartilhá-lo com o mapa de ocorrências. Nada foi exposto e o aviso de chuva chegou normalmente para você.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Ninguém precisa saber sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|log_aplicacao|MASCARADO|CREDENCIAL": {
+  "titulo": "Senha protegida no sistema",
+  "mensagem_cidadao": "A senha não foi exposta e o aviso de chuva chegou normalmente. Troque sua senha do app por precaução.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Troque sua senha do app",
+   "Não repita a mesma senha em outros serviços",
+   "Verifique se tudo está bem."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|canal_publico_bairro|BLOQUEADO|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Sua informação de saúde e endereço ficaram seguros",
+  "mensagem_cidadao": "Nada foi exposto e o alerta de chuva chegou normalmente. Lembre-se: sua saúde é privada e só a Defesa Civil precisa saber.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém desconhecido aparecer",
+   "Ignore links de outros números",
+   "Ninguém precisa saber sua condição de saúde"
+  ],
+  "o_que_fizemos": "O Guardião bloqueou automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Publicar só dados agregados (\"12 famílias prioritárias\"); lista nominal vai apenas para a Defesa Civil.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|LOCALIZACAO": {
+  "titulo": "Seu endão foi protegido no mapa de ocorrççes",
+  "mensagem_cidadao": "O AlertaChuva escondeu seu endério do mapa. Nada foi exposto e o aviso de chuva chegou normalmente.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|api_http_resposta|BLOQUEADO|CONTATO,IDENTIFICACAO,LOCALIZACAO": {
+  "titulo": "Sua casa e CPF foram protegidos",
+  "mensagem_cidadao": "Nada foi exposto, seu alerta de chuva chegou normalmente e o sistema bloqueou acesso sem sua autorização.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Ignore links de outros números."
+  ],
+  "o_que_fizemos": "O Guardião bloqueou automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Exigir autenticação e checar solicitante == titular (controle de acesso por objeto, OWASP API1).",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|exportacao_defesa_civil|MASCARADO|IDENTIFICACAO": {
+  "titulo": "Seu CPF foi protegido no arquivo enviado à Defesa Civil",
+  "mensagem_cidadao": "O AlertaChuva protegeu seu CPF antes de enviar o arquivo. Nada foi exposto e seu alerta de chuva chegou normalmente.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Trocar CPF por pseudonimizar(); a Defesa Civil precisa de endereço e condição, não de documento.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|llm_externo|MASCARADO|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Sua informação pessoal foi protegida",
+  "mensagem_cidadao": "Nada foi exposto, seu alerta de chuva chegou normalmente e sua saúde e endereço restaram seguros. Confie nos serviços oficiais.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém aparecer dizendo que veio pelo AlertaChuva",
+   "Ignore links de outros números",
+   "Ninguém precisa saber sua condição de saúde para te ajudar."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais não foram expostas",
+  "mensagem_cidadao": "Sua saúde e endereço ficaram seguros. O aviso de chuva chegou normalmente e nada foi compartilhado sem sua permissão.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Ninguém precisa saber da sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Os alertas oficiais vêm sempre do mesmo número. Ignore links de outros números."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|log_aplicacao|MASCARADO|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,NASCIMENTO": {
+  "titulo": "Alerta de Chuva normal, dados protegidos",
+  "mensagem_cidadao": "Nossos sistemas mantiveram seus dados seguros. O aviso de chuva chegou normalmente e não houve vazamento de informações. Por favor, verifique sua senha do app, caso aja, e troque por uma nova.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução e não repita a mesma senha em outros serviços.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|llm_externo|MASCARADO|CONTATO,CREDENCIAL": {
+  "titulo": "Alerta de chuva normal, dados protegidos",
+  "mensagem_cidadao": "Nada foi exposto e seu aviso de chuva chegou normalmente. Proteção de dados funcionou como deveria.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução",
+   "Verifique se o número está correto para alertas oficiais"
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v5|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|CONTATO,CREDENCIAL,LOCALIZACAO": {
+  "titulo": "Seu endereço e senha foram protegidos",
+  "mensagem_cidadao": "Nada foi exposto e o aviso de chuva chegou normalmente. Troque sua senha por precaução e não repita a mesma em outros serviços.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução",
+   "Ligue 199 (Defesa Civil) se alguém desconhecido aparecer",
+   "Ignore links de outros números"
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|VAZOU|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Seu CPF ficou visível no registro interno",
+  "mensagem_cidadao": "Descobrimos uma falha que expôs seu CPF e informações de saúde. Já estamos trabalhando para corrigir, mas por precaução, troque sua senha agora.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF",
+   "Troque sua senha do app",
+   "Ninguém precisa saber sua condição de saúde"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|sms_alerta_individual|VAZOU|IDENTIFICACAO": {
+  "titulo": "Seu CPF ficou visível no SMS de alerta",
+  "mensagem_cidadao": "Desculpe pela inconveniência, mas seu CPF ficou visível em um SMS de alerta. Estamos trabalhando para corrigir a falha e garantir sua privacidade.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Mantenha-se atento às atualizações",
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF",
+   "Verifique seu app para garantir que ele esteja atualizado."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Remover documento do texto do SMS; identificar o morador pelo ID e confirmar identidade pelo app.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|VAZOU|CONTATO": {
+  "titulo": "Seu telefone foi visível nos registros internos do sistema",
+  "mensagem_cidadao": "Desculpe pela falha, estamos trabalhando para corrigir. Os alertas de chuva continuam funcionando normalmente, mas vamos reforçar a importância de não clicar em links de números desconhecidos.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Verifique se o número está no nosso banco de números de alerta",
+   "Não clique em links de números desconhecidos",
+   "Verifique se o número está no nosso banco de números de alerta"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|llm_externo|VAZOU|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Seu CPF ficou visível na IA externa",
+  "mensagem_cidadao": "Infelizmente, seu CPF e informações de saúde foram expostos para um serviço de inteligência artificial externo. Não há risco imediato, mas estamos corrigindo a falha e monitorando.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede.",
+   "Ninguém precisa saber da sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Ligue 199 (Defesa Civil) se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Seu CPF ficou visível no mapa público",
+  "mensagem_cidadao": "Descobrimos uma falha: seu CPF e informações de saúde ficaram visíveis no mapa. Já estamos corrigindo e monitorando. Seus alertas de chuva continuam funcionais.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede.",
+   "Ninguém precisa saber da sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|VAZOU|CREDENCIAL": {
+  "titulo": "Sua senha ficou visível no registro interno",
+  "mensagem_cidadao": "Descobrimos uma falha, mas corrigimos já. Sua conta continua segura, mas vamos pedir que você troque sua senha por segurança.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Troque sua senha do app",
+   "Não repita a mesma senha em outros serviços"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|canal_publico_bairro|VAZOU|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais expostas no canal aberto do bairro",
+  "mensagem_cidadao": "Desculpe, uma informação sobre sua saúde ficou visível no canal aberto do bairro. Corrigimos a falha e estamos acompanhando. Seus alertas de chuva continuam funcionando normalmente. Lembre-se: sua saúde é para a Defesa Civil, não precisa compartilhar.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém desconhecido aparecer",
+   "Ignore links de outros números",
+   "Não compartilhe sua condição de saúde"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Publicar só dados agregados (\"12 famílias prioritárias\"); lista nominal vai apenas para a Defesa Civil.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|LOCALIZACAO": {
+  "titulo": "Seu endereço foi visível no mapa de ocorrências",
+  "mensagem_cidadao": "Corrigimos a falha e estamos monitorando. Sua conta continua funcionando normalmente, mas lembre-se de não compartilhar informações pessoais com desconhecidos.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém disser que veio pelo AlertaChuva."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|api_http_resposta|VAZOU|CONTATO,IDENTIFICACAO,LOCALIZACAO": {
+  "titulo": "Seu CPF ficou visível na consulta ao sistema",
+  "mensagem_cidadao": "Descobrimos uma falha: seu CPF e endereço ficaram visíveis para alguém que não você. Já estamos trabalhando para corrigir isso. Não afeta seus alertas de chuva, mas é importante estar atento a ligações e SMS",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF. O AlertaChuva nunca pede.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Ignore links de outros números."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Exigir autenticação e checar solicitante == titular (controle de acesso por objeto, OWASP API1).",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|exportacao_defesa_civil|VAZOU|IDENTIFICACAO": {
+  "titulo": "Seu CPF ficou visível no envio à Defesa Civil",
+  "mensagem_cidadao": "Desculpe, seu CPF ficou visível em um arquivo enviado à Defesa Civil. Estamos corrigindo a falha e monitorando. Não afeta seus alertas de chuva.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Mantenha-se informado sobre a situação",
+   "Verifique se o app está atualizado",
+   "Desconfie de ligações ou SMS que peçam para \"confirmar\" seu CPF: o AlertaChuva nunca pede."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Trocar CPF por pseudonimizar(); a Defesa Civil precisa de endereço e condição, não de documento.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|llm_externo|VAZOU|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais vazadas para serviço de inteligência…",
+  "mensagem_cidadao": "Desculpe, uma falha nos nossos sistemas expôs algumas informações sobre sua saúde e endereço. Estamos corrigindo e monitorando a situação.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém desconhecido disser que veio pelo AlertaChuva",
+   "Ignore links de outros números",
+   "Verifique sempre o número de origem do aviso de chuva"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais foram expostas no mapa de ocorrências",
+  "mensagem_cidadao": "Desculpe, uma informação sobre sua saúde e endereço ficaram visíveis no mapa público. Já estamos trabalhando para corrigir isso. Sua conta continua funcionando normalmente, mas tente manter isso em segredo para que ninguém desconhecido possa usá-la",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém disser que veio pelo AlertaChuva",
+   "Ignore links de outros números",
+   "Mantenha sua conta segura, como sempre"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|VAZOU|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,NASCIMENTO": {
+  "titulo": "Seu CPF ficou visível no registro interno",
+  "mensagem_cidadao": "Descobrimos uma falha no sistema que expôs seu CPF e senha. Corrigimos e estamos monitorando. Não há afetação nos seus alertas de chuva. Troque sua senha por precaução e não repita a mesma em outros serviços.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Troque sua senha do app por precaução e não repita a mesma senha em outros serviços.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|llm_externo|VAZOU|CONTATO,CREDENCIAL": {
+  "titulo": "Sua senha ficou visível na IA externa",
+  "mensagem_cidadao": "Descobrimos uma falha que afetou alguns dados seus. Troque sua senha imediatamente e evite usá-la em outros serviços. Os alertas de chuva continuam funcionando normalmente, mas vamos monitorar a situação.",
+  "nivel_risco": "médio",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução",
+   "Ignore links de outros números e confira apenas os alertas oficiais do AlertaChuva."
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|VAZOU|CONTATO,CREDENCIAL,LOCALIZACAO": {
+  "titulo": "Sua senha ficou visível no mapa público",
+  "mensagem_cidadao": "Descobrimos uma falha que expôs seu endereço e senha no mapa de ocorrências. Corrigimos e estamos monitorando. Não afeta os seus alertas de chuva.",
+  "nivel_risco": "crítico",
+  "o_que_fazer": [
+   "Troque sua senha por precaução",
+   "Ignore links de outros números",
+   "Ligue 199 se alguém disser que veio pelo AlertaChuva"
+  ],
+  "o_que_fizemos": "A falha foi registrada e a correção entrou no sistema de proteção.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|MASCARADO|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Seu CPF e dados de saúde foram protegidos",
+  "mensagem_cidadao": "Tivemos cuidado para esconder seu CPF e informações de saúde. O alerta de chuva chegou normalmente e nada foi exposto.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Ninguém precisa saber sua condição de saúde para nos ajudar.",
+   "Troque sua senha do app por segurança."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|sms_alerta_individual|MASCARADO|IDENTIFICACAO": {
+  "titulo": "Seu CPF protegido no SMS de alerta",
+  "mensagem_cidadao": "Tiramos seu CPF da mensagem antes do envio. Nada vazou e o aviso de chuva chegou normalmente para você.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Remover documento do texto do SMS; identificar o morador pelo ID e confirmar identidade pelo app.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|MASCARADO|CONTATO": {
+  "titulo": "Seu telefone e e-mail foram protegidos",
+  "mensagem_cidadao": "Nada foi exposto nos registros internos do sistema. Você recebeu seu alerta de chuva normalmente e tudo está bem.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Verifique sempre o número do alerta: o AlertaChuva é sempre do mesmo número."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|llm_externo|MASCARADO|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Seu CPF e dados de saúde foram protegidos",
+  "mensagem_cidadao": "Nada foi exposto e o aviso de chuva chegou normalmente para você. Lembre-se de que apenas a Defesa Civil precisa de sua condição de saúde para te ajudar.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Ninguém precisa saber sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Ligue 199 se alguém desconhecido disser que veio pelo AlertaChuva."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|CONTATO,IDENTIFICACAO,LOCALIZACAO,SAUDE": {
+  "titulo": "Seu CPF e dados de saúde foram protegidos",
+  "mensagem_cidadao": "Nada foi exposto e o aviso de chuva chegou normalmente. Lembre-se de que a sua saúde é confidencial e só vai para a Defesa Civil.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Ninguém precisa saber sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Ligue 199 (Defesa Civil) se alguém desconhecido aparecer com essa informação."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|MASCARADO|CREDENCIAL": {
+  "titulo": "Sua senha protegida no registro interno",
+  "mensagem_cidadao": "Nada foi exposto, apenas o sistema protegeu sua senha internamente. Continue com seu dia como o normal.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução",
+   "Não repita a mesma senha em outros serviços",
+   "Verifique se a senha está atualizada em outros serviços."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|canal_publico_bairro|BLOQUEADO|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais não foram expostas",
+  "mensagem_cidadao": "Sua saúde e endereço ficaram seguros. O AlertaChuva protegeu essas informações e o aviso de chuva chegou normalmente.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém aparecer dizendo que veio pelo AlertaChuva",
+   "Ignore links de outros números",
+   "Ninguém precisa saber sua condição de saúde para te ajudar"
+  ],
+  "o_que_fizemos": "O Guardião bloqueou automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Publicar só dados agregados (\"12 famílias prioritárias\"); lista nominal vai apenas para a Defesa Civil.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|LOCALIZACAO": {
+  "titulo": "Seu endão foi protegido no mapa de ocorrççes",
+  "mensagem_cidadao": "Tiramos seu endério da lista de ocorrççes. Nada foi exposto e o aviso de chuva chegou normalmente para você.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Se alguém desconhecidos aparecerem dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|api_http_resposta|BLOQUEADO|CONTATO,IDENTIFICACAO,LOCALIZACAO": {
+  "titulo": "Seu CPF protegido na consulta ao sistema",
+  "mensagem_cidadao": "Nada foi exposto, mas é importante estar atento a ligações e SMS que peçam confirmação de dados. Se alguém aparecer dizendo que veio pelo AlertaChuva, ligue 199.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Ligue 199 (Defesa Civil) se alguém aparecer dizendo que veio pelo AlertaChuva.",
+   "Ignore links de outros números."
+  ],
+  "o_que_fizemos": "O Guardião bloqueou automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Exigir autenticação e checar solicitante == titular (controle de acesso por objeto, OWASP API1).",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|exportacao_defesa_civil|MASCARADO|IDENTIFICACAO": {
+  "titulo": "Seu CPF foi protegido no arquivo de alerta",
+  "mensagem_cidadao": "O AlertaChuva protegeu seu CPF no envio do arquivo para a Defesa Civil. Nada foi exposto e seu alerta de chuva chegou normalmente.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Trocar CPF por pseudonimizar(); a Defesa Civil precisa de endereço e condição, não de documento.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|llm_externo|MASCARADO|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações de saúde e endereço protegidos",
+  "mensagem_cidadao": "Nada foi exposto e seu alerta de chuva chegou normalmente. Lembre-se: sua saúde é confidencial e só vai para a Defesa Civil.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Ligue 199 (Defesa Civil) se alguém aparecer dizendo que veio pelo AlertaChuva",
+   "Ignore links de outros números",
+   "Ninguém precisa saber sua condição de saúde para te ajudar."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|CONTATO,LOCALIZACAO,SAUDE": {
+  "titulo": "Informações pessoais não foram expostas",
+  "mensagem_cidadao": "Sua saúde e endereço ficaram seguros. O AlertaChuva te ajudou com o alerta de chuva normalmente.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Ninguém precisa saber sua condição de saúde para te ajudar. Ela só vai para a Defesa Civil.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Ignore links de outros números."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|log_aplicacao|MASCARADO|CONTATO,CREDENCIAL,IDENTIFICACAO,LOCALIZACAO,NASCIMENTO": {
+  "titulo": "Seu CPF e senha foram protegidos",
+  "mensagem_cidadao": "Tiramos seu CPF e senha da mensagem antes do envio e o aviso de chuva chegou normalmente para você. Por precaução, troque sua senha do app imediatamente e não repita a mesma senha em outros serviços.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Desconfie de SMS que peçam seu CPF: o AlertaChuva nunca pede.",
+   "Troque sua senha do app por precaução e não repita a mesma senha em outros serviços.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil)."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Nunca interpolar o objeto/payload inteiro no log. Logar só o ID: log.info(f\"cadastro {m.id}\") ou usar mascarar().",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|llm_externo|MASCARADO|CONTATO,CREDENCIAL": {
+  "titulo": "Sua senha protegida na IA externa",
+  "mensagem_cidadao": "Nada foi exposto, a senha e dados do seu perfil foram protegidos. O AlertaChuva sempre prioriza sua segurança.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução",
+   "Verifique se o número de alerta é do mesmo que o usado anteriormente."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Mascarar o texto antes do prompt; preferir modelo local para conteúdo do cidadão.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ },
+ "v6|ollama|llama3.2|mapa_publico_ocorrencias|MASCARADO|CONTATO,CREDENCIAL,LOCALIZACAO": {
+  "titulo": "Seu endereço e senha foram protegidos no mapa de ocorrências",
+  "mensagem_cidadao": "Tivemos cuidado para esconder seu endereço e senha no mapa de ocorrências. O seu alerta de chuva chegou normalmente e tudo está bem.",
+  "nivel_risco": "baixo",
+  "o_que_fazer": [
+   "Troque sua senha do app por precaução e não repita a mesma senha em outros serviços.",
+   "Se alguém desconhecido aparecer dizendo que veio pelo AlertaChuva, ligue 199 (Defesa Civil).",
+   "Verifique se o número está correto antes de clicar em links de alertas."
+  ],
+  "o_que_fizemos": "O Guardião escondeu automaticamente o dado antes da saída.",
+  "correcao_tecnica": "Rodar motor.mascarar() no texto livre antes de publicar; guardar o original criptografado.",
+  "fonte_ia": "llm:ollama/llama3.2"
+ }
+}

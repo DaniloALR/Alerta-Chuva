@@ -146,5 +146,3 @@ A leitura é: *"de todo o dano à privacidade que o sistema poderia ter causado,
 | `auditoria.jsonl` | log de auditoria (sem nenhum valor pessoal) |
 | `alertas_ia.jsonl` | traduções da IA |
 | `saidas/antes` × `saidas/depois` | o que **de fato saiu** em cada canal (SMS, canal público, mapa, LLM, log, Defesa Civil, API) |
-#   A l e r t a - C h u v a  
- 
